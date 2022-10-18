@@ -212,8 +212,7 @@ function removeFromBoard(board, item) {
  * @returns 
  */
 function createBoard(width, height, emptySpace) {
-    // ...
-}
+    return [...Array(width)].map(e => Array(height).fill(emptySpace));}
 
 /**
  * Draw a rectangular room
