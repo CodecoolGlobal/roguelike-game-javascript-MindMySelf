@@ -11,6 +11,8 @@ const c = Object.freeze({
     boardWidth: 80,
     boardHeight: 24,
 })
+const playerName = document.getElementById("playerName");
+const playerRace = document.getElementById("playerRace");
 
 /**
  * The state of the current game
@@ -84,8 +86,8 @@ const ENEMY_INFO = {
 function init() {
     GAME.currentRoom = ROOM.A
     GAME.map = generateMap()
-    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace)
-    GAME.player = initPlayer("Legolas", "Elf")
+    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.wall)
+    GAME.player = initPlayer(playerName.value, playerRace.value)
     drawScreen()
 }
 
