@@ -236,13 +236,13 @@ function createBoard(width, height, emptySpace) {
 function drawRoom(board, topY, leftX, bottomY, rightX) {
     
     
-    for (let x = layout[0]; x < layout[2]; x++) {
-        board[0][x] = c.wall;
-        board[board.length-1][x] = c.wall;
+    for (let x = leftX; x < rightX; x++) {
+        board[topY][x] = c.wall;
+        board[bottomY][x] = c.wall;
     }
-    for (let y = layout[1]; y < layout[3]; y++) {
-        board[y][0] = c.wall;
-        board[y][board.length-1] = c.wall;
+    for (let y = topY; y < bottomY; y++) {
+        board[y][leftX] = c.wall;
+        board[y][rightX] = c.wall;
     }
     return board;
 
