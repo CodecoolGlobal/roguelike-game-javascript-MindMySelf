@@ -85,7 +85,7 @@ const ENEMY_INFO = {
 
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
   [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: 'Rat', isBoss: false},
-  [ENEMY.Bandit]: { health: 20, attack: 3, defense: 1, icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
+  [ENEMY.Bandit ]: { health: 20, attack: 3, defense: 1, icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
   [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0, icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false},
   [ENEMY.BOSS]: { health: 500, attack: 10, defense: 3, icon: ENEMY.BOSS, race: 'Golem', isBoss: true}
 };
@@ -188,8 +188,8 @@ function moveAll(yDiff, xDiff) {
  */
 function move(who, yDiff, xDiff) {
     //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
-    const desiredXPos = who.x + xDiff;
-    const desiredYPos = who.y + yDiff;
+    const desiredXPos = who.x + yDiff;
+    const desiredYPos = who.y + xDiff;
   // ... check if hit a wall
     if (GAME.board[desiredXPos][desiredYPos] === c.wall){
         return console.log('Someone tried to hit a wall');
@@ -214,8 +214,11 @@ function move(who, yDiff, xDiff) {
             return console.log('Tried to move to non empty space');
         }
         else {
+            removeFromBoard(GAME.board,GAME.player);
             who.x = desiredXPos;
             who.y = desiredYPos;
+            addToBoard(GAME.board,GAME.player,GAME.player.icon);
+            drawScreen();
         }
     }
 }
@@ -241,9 +244,6 @@ function hit(board, y, x) {
  */
 function addToBoard(board, item, icon) {
   board[item.x][item.y] = icon;
-
-  
-  // ...
 }
 
 /**
@@ -253,6 +253,7 @@ function addToBoard(board, item, icon) {
  * @param {*} item anything with position data
  */
 function removeFromBoard(board, item) {
+  board[item.x][item.y] = c.emptySpace;
   // ...
 }
 
