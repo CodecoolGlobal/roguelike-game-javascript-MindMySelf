@@ -178,9 +178,9 @@ function moveAll(yDiff, xDiff) {
  * @returns
  */
 function move(who, yDiff, xDiff) {
-    //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
-    const desiredXPos = who.x + xDiff;
-    const desiredYPos = who.y + yDiff;
+    console.log(`Player position - X: ${who.x} Y: ${who.y}`);
+    const desiredXPos = who.x + yDiff;
+    const desiredYPos = who.y + xDiff;
   // ... check if hit a wall
     if (GAME.board[desiredXPos][desiredYPos] === c.wall){
         return console.log('Someone tried to hit a wall');
@@ -205,8 +205,11 @@ function move(who, yDiff, xDiff) {
             return console.log('Tried to move to non empty space');
         }
         else {
+            removeFromBoard(GAME.board,GAME.player);
             who.x = desiredXPos;
             who.y = desiredYPos;
+            addToBoard(GAME.board,GAME.player,GAME.player.icon);
+            drawScreen();
         }
     }
 }
