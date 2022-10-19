@@ -241,9 +241,6 @@ function hit(board, y, x) {
  */
 function addToBoard(board, item, icon) {
   board[item.x][item.y] = icon;
-
-  
-  // ...
 }
 
 /**
@@ -253,6 +250,7 @@ function addToBoard(board, item, icon) {
  * @param {*} item anything with position data
  */
 function removeFromBoard(board, item) {
+  board[item.x][item.y] = c.emptySpace;
   // ...
 }
 
