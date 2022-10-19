@@ -122,7 +122,7 @@ function generateMap() {
  * @param {*} board the gameplay area
  */
  function displayBoard(board) {
-    const screen = board // ...
+    const screen = board.join('') // ...
     _displayBoard(screen)
 }
 
@@ -133,10 +133,12 @@ function drawScreen() {
     // ... reset the board with `createBoard`
     createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
     // ... use `drawRoom`
+    const rooms = Object.entries(generateMap());
+    const layout =rooms[0][1].layout;
 
-    drawRoom(GAME.board,GAME.map)
+    drawRoom(GAME.board,)
     // ... print entities with `addToBoard`
-    displayBoard(GAME.board.toString().replace(RegExp(/,/),'#'));
+    displayBoard(GAME.board);
 }
 
 /**
@@ -217,7 +219,10 @@ function removeFromBoard(board, item) {
  * @returns 
  */
 function createBoard(width, height, emptySpace) {
-    return [...Array(width)].map(e => Array(height).fill(emptySpace));}
+    return [...Array(width)].map(e => Array(height).fill(emptySpace));
+    //placeholder testnek
+    
+}
 
 /**
  * Draw a rectangular room
@@ -229,6 +234,17 @@ function createBoard(width, height, emptySpace) {
  * @param {*} rightX room's right position on X axis
  */
 function drawRoom(board, topY, leftX, bottomY, rightX) {
+    
+    
+    for (let x = layout[0]; x < layout[2]; x++) {
+        board[0][x] = c.wall;
+        board[board.length-1][x] = c.wall;
+    }
+    for (let y = layout[1]; y < layout[3]; y++) {
+        board[y][0] = c.wall;
+        board[y][board.length-1] = c.wall;
+    }
+    return board;
 
     
 }
