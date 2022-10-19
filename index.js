@@ -138,9 +138,12 @@ function drawScreen() {
     createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
     // ... use `drawRoom`
     const rooms = Object.entries(generateMap());
-    const layout =rooms[0][1].layout;
-
-    drawRoom(GAME.board,layout[0],layout[1],layout[2],layout[3])
+    //const layout =rooms[ROOM.A].layout;
+    for (const room of rooms) {
+      const layout = room[1].layout;
+      drawRoom(GAME.board,layout[0],layout[1],layout[2],layout[3])
+    }
+    
     // ... print entities with `addToBoard`
     displayBoard(GAME.board);
 }
