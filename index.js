@@ -136,6 +136,7 @@ function drawScreen() {
 
     // ... reset the board with `createBoard`
     createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
+    addToBoard(GAME.board, GAME.player,GAME.player.icon)
     // ... use `drawRoom`
     const rooms = Object.entries(generateMap());
     //const layout =rooms[ROOM.A].layout;
@@ -225,11 +226,14 @@ function hit(board, y, x) {
 /**
  * Add entity to the board
  *
- * @param {*} board the gameplay area
- * @param {*} item anything with position data
+ * @param {Array} board the gameplay area
+ * @param {Object} item anything with position data
  * @param {string} icon icon to print on the screen
  */
 function addToBoard(board, item, icon) {
+  board[item.x][item.y] = icon;
+
+  
   // ...
 }
 
