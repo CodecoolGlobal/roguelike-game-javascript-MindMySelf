@@ -187,7 +187,7 @@ function moveAll(yDiff, xDiff) {
  * @returns
  */
 function move(who, yDiff, xDiff) {
-    console.log(`Player position - X: ${who.x} Y: ${who.y}`);
+    //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
     const desiredXPos = who.x + yDiff;
     const desiredYPos = who.y + xDiff;
   // ... check if hit a wall
