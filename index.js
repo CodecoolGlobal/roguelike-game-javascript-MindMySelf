@@ -71,25 +71,27 @@ const ROOM = {
  * Icon of the enemies
  */
 const ENEMY = {
-  // RAT: "r",
-};
-
+    RAT: "r",
+}
 /**
  * Info of the enemies
  */
 const ENEMY_INFO = {
+
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
 };
+
 
 /**
  * Initialize the play area with starting conditions
  */
 function init() {
-  GAME.currentRoom = ROOM.A;
-  GAME.map = generateMap();
-  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.wall);
-  GAME.player = initPlayer(playerName.value, playerRace.value);
-  drawScreen();
+
+    GAME.currentRoom = ROOM.A
+    GAME.map = generateMap()
+    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace)
+    GAME.player = initPlayer(playerName.value, playerRace.value)
+    drawScreen()
 }
 
 /**
@@ -122,19 +124,25 @@ function generateMap() {
  * Display the board on the screen
  * @param {*} board the gameplay area
  */
-function displayBoard(board) {
-  const screen = ''; // ...
-  _displayBoard(screen);
-}
+ function displayBoard(board) {
+    const screen = board.join('\n').split(',').join('') // ...
+    _displayBoard(screen)
+ }
 
 /**
  * Draw the rectangular room, and show the items, enemies and the player on the screen, then print to the screen
  */
 function drawScreen() {
-  // ... reset the board with `createBoard`
-  // ... use `drawRoom`
-  // ... print entities with `addToBoard`
-  displayBoard(GAME.board);
+
+    // ... reset the board with `createBoard`
+    createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
+    // ... use `drawRoom`
+    const rooms = Object.entries(generateMap());
+    const layout =rooms[0][1].layout;
+
+    drawRoom(GAME.board,layout[0],layout[1],layout[2],layout[3])
+    // ... print entities with `addToBoard`
+    displayBoard(GAME.board);
 }
 
 /**
@@ -239,9 +247,9 @@ function removeFromBoard(board, item) {
  * @returns
  */
 function createBoard(width, height, emptySpace) {
-  return [...Array(width)].map((e) => Array(height).fill(emptySpace));
+    return [...Array(height)].map(e => Array(width).fill(emptySpace));
+    //placeholder testnek
 }
-
 /**
  * Draw a rectangular room
  *
@@ -252,8 +260,18 @@ function createBoard(width, height, emptySpace) {
  * @param {*} rightX room's right position on X axis
  */
 function drawRoom(board, topY, leftX, bottomY, rightX) {
-  // ...
+    for (let x = leftX; x <= rightX; x++) {
+        board[topY][x] = c.wall;
+        board[bottomY][x] = c.wall;
+    }
+    for (let y = topY; y < bottomY; y++) {
+        board[y][leftX] = c.wall;
+        board[y][rightX] = c.wall;
+    }
+    return board;
 }
+    
+
 
 /**
  * Print stats to the user
