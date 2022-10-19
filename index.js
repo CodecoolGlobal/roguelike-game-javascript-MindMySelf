@@ -71,14 +71,23 @@ const ROOM = {
  * Icon of the enemies
  */
 const ENEMY = {
-    RAT: "r",
-}
+  // RAT: "r",
+  RAT: 'r',
+  BANDIT: 'b',
+  SKELETON: 's',
+  BOSS: '$'
+};
+
 /**
  * Info of the enemies
  */
 const ENEMY_INFO = {
 
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
+  [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: 'Rat', isBoss: false},
+  [ENEMY.Bandit]: { health: 20, attack: 3, defense: 1, icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
+  [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0, icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false},
+  [ENEMY.BOSS]: { health: 500, attack: 10, defense: 3, icon: ENEMY.BOSS, race: 'Golem', isBoss: true}
 };
 
 
@@ -235,9 +244,6 @@ function hit(board, y, x) {
  */
 function addToBoard(board, item, icon) {
   board[item.x][item.y] = icon;
-
-  
-  // ...
 }
 
 /**
@@ -247,6 +253,7 @@ function addToBoard(board, item, icon) {
  * @param {*} item anything with position data
  */
 function removeFromBoard(board, item) {
+  board[item.x][item.y] = c.emptySpace;
   // ...
 }
 
