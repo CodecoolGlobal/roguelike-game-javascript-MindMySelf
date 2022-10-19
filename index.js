@@ -161,6 +161,7 @@ function drawScreen() {
  */
 function moveAll(yDiff, xDiff) {
   // ... use `move` to move all entities
+    move(GAME.player,yDiff,xDiff);
   // ... show statistics with `showStats`
   // ... reload screen with `drawScreen`
 }
@@ -180,12 +181,37 @@ function moveAll(yDiff, xDiff) {
  * @returns
  */
 function move(who, yDiff, xDiff) {
-  // ... check if move to empty space
+    //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
+    const desiredXPos = who.x + xDiff;
+    const desiredYPos = who.y + yDiff;
   // ... check if hit a wall
+    if (GAME.board[desiredXPos][desiredYPos] === c.wall){
+        return console.log('Someone tried to hit a wall');
+    }
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
+    else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
+             GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
+        return console.log('Moved to another room');
+    }
   // ... check if attack enemy
+    else if (GAME.board[desiredXPos][desiredYPos] === c.enemy){
+        return console.log('Enemy has been attacked');
+    }
   // ... check if attack player
+    else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon){
+        return console.log('Player has been attacked');
+    }
   //     ... use `_gameOver()` if necessary
+    else{
+        // ... check if move to empty space
+        if(GAME.board[desiredXPos][desiredYPos] !== c.emptySpace){
+            return console.log('Tried to move to non empty space');
+        }
+        else {
+            who.x = desiredXPos;
+            who.y = desiredYPos;
+        }
+    }
 }
 
 /**
