@@ -127,7 +127,7 @@ function generateMap() {
  function displayBoard(board) {
     const screen = board.join('\n').split(',').join('') // ...
     _displayBoard(screen)
-
+ }
 
 /**
  * Draw the rectangular room, and show the items, enemies and the player on the screen, then print to the screen
