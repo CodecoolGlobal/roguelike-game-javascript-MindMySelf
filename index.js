@@ -70,14 +70,14 @@ const ROOM = {
  * Icon of the enemies
  */
 const ENEMY = {
-    // RAT: "r",
+    RAT: "r",
 }
 
 /**
  * Info of the enemies
  */
 const ENEMY_INFO = {
-    // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
+    [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
 }
 
 /**
@@ -86,7 +86,7 @@ const ENEMY_INFO = {
 function init() {
     GAME.currentRoom = ROOM.A
     GAME.map = generateMap()
-    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.wall)
+    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace)
     GAME.player = initPlayer(playerName.value, playerRace.value)
     drawScreen()
 }
@@ -122,7 +122,7 @@ function generateMap() {
  * @param {*} board the gameplay area
  */
  function displayBoard(board) {
-    const screen = "" // ...
+    const screen = board // ...
     _displayBoard(screen)
 }
 
@@ -131,9 +131,12 @@ function generateMap() {
  */
 function drawScreen() {
     // ... reset the board with `createBoard`
+    createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
     // ... use `drawRoom`
+
+    drawRoom(GAME.board,GAME.map)
     // ... print entities with `addToBoard`
-    displayBoard(GAME.board)
+    displayBoard(GAME.board.toString().replace(RegExp(/,/),'#'));
 }
 
 /**
@@ -226,7 +229,8 @@ function createBoard(width, height, emptySpace) {
  * @param {*} rightX room's right position on X axis
  */
 function drawRoom(board, topY, leftX, bottomY, rightX) {
-    // ...
+
+    
 }
 
 /**
