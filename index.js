@@ -122,7 +122,7 @@ function generateMap() {
  * @param {*} board the gameplay area
  */
  function displayBoard(board) {
-    const screen = board.join('') // ...
+    const screen = board.join('\n').split(',').join('') // ...
     _displayBoard(screen)
 }
 
@@ -136,7 +136,7 @@ function drawScreen() {
     const rooms = Object.entries(generateMap());
     const layout =rooms[0][1].layout;
 
-    drawRoom(GAME.board,)
+    drawRoom(GAME.board,layout[0],layout[1],layout[2],layout[3])
     // ... print entities with `addToBoard`
     displayBoard(GAME.board);
 }
@@ -219,7 +219,7 @@ function removeFromBoard(board, item) {
  * @returns 
  */
 function createBoard(width, height, emptySpace) {
-    return [...Array(width)].map(e => Array(height).fill(emptySpace));
+    return [...Array(height)].map(e => Array(width).fill(emptySpace));
     //placeholder testnek
     
 }
@@ -236,7 +236,7 @@ function createBoard(width, height, emptySpace) {
 function drawRoom(board, topY, leftX, bottomY, rightX) {
     
     
-    for (let x = leftX; x < rightX; x++) {
+    for (let x = leftX; x <= rightX; x++) {
         board[topY][x] = c.wall;
         board[bottomY][x] = c.wall;
     }
