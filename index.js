@@ -126,6 +126,16 @@ function generateMap() {
       ],
       items: [],
     },
+    [ROOM.C]: {
+        layout: [10, 15, 40, 55],
+        gates: [
+          // { to: ROOM.A, x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
+        ],
+        enemies: [
+          // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
+        ],
+        items: [],
+      },
   };
 }
 
