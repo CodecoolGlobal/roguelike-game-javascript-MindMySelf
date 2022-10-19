@@ -84,10 +84,10 @@ const ENEMY = {
 const ENEMY_INFO = {
 
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
-  [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: 'Rat', isBoss: false},
-  [ENEMY.Bandit ]: { health: 20, attack: 3, defense: 1, icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
-  [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0, icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false},
-  [ENEMY.BOSS]: { health: 500, attack: 10, defense: 3, icon: ENEMY.BOSS, race: 'Golem', isBoss: true}
+  [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: 'Rat', isBoss: false },
+  [ENEMY.BANDIT]: { health: 20, attack: 3, defense: 1, icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false },
+  [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0, icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false },
+  [ENEMY.BOSS]: { health: 500, attack: 10, defense: 3, icon: ENEMY.BOSS, race: 'Golem', isBoss: true }
 };
 
 
@@ -96,11 +96,11 @@ const ENEMY_INFO = {
  */
 function init() {
 
-    GAME.currentRoom = ROOM.A
-    GAME.map = generateMap()
-    GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace)
-    GAME.player = initPlayer(playerName.value, playerRace.value)
-    drawScreen()
+  GAME.currentRoom = ROOM.A
+  GAME.map = generateMap()
+  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace)
+  GAME.player = initPlayer(playerName.value, playerRace.value)
+  drawScreen()
 }
 
 /**
@@ -133,29 +133,29 @@ function generateMap() {
  * Display the board on the screen
  * @param {*} board the gameplay area
  */
- function displayBoard(board) {
-    const screen = board.join('\n').split(',').join('') // ...
-    _displayBoard(screen)
- }
+function displayBoard(board) {
+  const screen = board.join('\n').split(',').join('') // ...
+  _displayBoard(screen)
+}
 
 /**
  * Draw the rectangular room, and show the items, enemies and the player on the screen, then print to the screen
  */
 function drawScreen() {
 
-    // ... reset the board with `createBoard`
-    createBoard(c.boardWidth,c.boardHeight,c.emptySpace);
-    addToBoard(GAME.board, GAME.player,GAME.player.icon)
-    // ... use `drawRoom`
-    const rooms = Object.entries(generateMap());
-    //const layout =rooms[ROOM.A].layout;
-    for (const room of rooms) {
-      const layout = room[1].layout;
-      drawRoom(GAME.board,layout[0],layout[1],layout[2],layout[3])
-    }
-    
-    // ... print entities with `addToBoard`
-    displayBoard(GAME.board);
+  // ... reset the board with `createBoard`
+  createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
+  addToBoard(GAME.board, GAME.player, GAME.player.icon)
+  // ... use `drawRoom`
+  const rooms = Object.entries(generateMap());
+  //const layout =rooms[ROOM.A].layout;
+  for (const room of rooms) {
+    const layout = room[1].layout;
+    drawRoom(GAME.board, layout[0], layout[1], layout[2], layout[3])
+  }
+
+  // ... print entities with `addToBoard`
+  displayBoard(GAME.board);
 }
 
 /**
@@ -167,7 +167,7 @@ function drawScreen() {
  */
 function moveAll(yDiff, xDiff) {
   // ... use `move` to move all entities
-    move(GAME.player,yDiff,xDiff);
+  move(GAME.player, yDiff, xDiff);
   // ... show statistics with `showStats`
   // ... reload screen with `drawScreen`
 }
@@ -187,40 +187,40 @@ function moveAll(yDiff, xDiff) {
  * @returns
  */
 function move(who, yDiff, xDiff) {
-    //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
-    const desiredXPos = who.x + yDiff;
-    const desiredYPos = who.y + xDiff;
+  //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
+  const desiredXPos = who.x + yDiff;
+  const desiredYPos = who.y + xDiff;
   // ... check if hit a wall
-    if (GAME.board[desiredXPos][desiredYPos] === c.wall){
-        return console.log('Someone tried to hit a wall');
-    }
+  if (GAME.board[desiredXPos][desiredYPos] === c.wall) {
+    return console.log('Someone tried to hit a wall');
+  }
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
-    else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
-             GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
-        return console.log('Moved to another room');
-    }
+  else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
+    GAME.board[desiredXPos][desiredYPos] === c.gateVertical) {
+    return console.log('Moved to another room');
+  }
   // ... check if attack enemy
-    else if (GAME.board[desiredXPos][desiredYPos] === c.enemy){
-        return console.log('Enemy has been attacked');
-    }
+  else if (GAME.board[desiredXPos][desiredYPos] === c.enemy) {
+    return console.log('Enemy has been attacked');
+  }
   // ... check if attack player
-    else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon){
-        return console.log('Player has been attacked');
-    }
+  else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon) {
+    return console.log('Player has been attacked');
+  }
   //     ... use `_gameOver()` if necessary
-    else{
-        // ... check if move to empty space
-        if(GAME.board[desiredXPos][desiredYPos] !== c.emptySpace){
-            return console.log('Tried to move to non empty space');
-        }
-        else {
-            removeFromBoard(GAME.board,GAME.player);
-            who.x = desiredXPos;
-            who.y = desiredYPos;
-            addToBoard(GAME.board,GAME.player,GAME.player.icon);
-            drawScreen();
-        }
+  else {
+    // ... check if move to empty space
+    if (GAME.board[desiredXPos][desiredYPos] !== c.emptySpace) {
+      return console.log('Tried to move to non empty space');
     }
+    else {
+      removeFromBoard(GAME.board, GAME.player);
+      who.x = desiredXPos;
+      who.y = desiredYPos;
+      addToBoard(GAME.board, GAME.player, GAME.player.icon);
+      drawScreen();
+    }
+  }
 }
 
 /**
@@ -266,8 +266,8 @@ function removeFromBoard(board, item) {
  * @returns
  */
 function createBoard(width, height, emptySpace) {
-    return [...Array(height)].map(e => Array(width).fill(emptySpace));
-    //placeholder testnek
+  return [...Array(height)].map(e => Array(width).fill(emptySpace));
+  //placeholder testnek
 }
 /**
  * Draw a rectangular room
@@ -279,17 +279,17 @@ function createBoard(width, height, emptySpace) {
  * @param {*} rightX room's right position on X axis
  */
 function drawRoom(board, topY, leftX, bottomY, rightX) {
-    for (let x = leftX; x <= rightX; x++) {
-        board[topY][x] = c.wall;
-        board[bottomY][x] = c.wall;
-    }
-    for (let y = topY; y < bottomY; y++) {
-        board[y][leftX] = c.wall;
-        board[y][rightX] = c.wall;
-    }
-    return board;
+  for (let x = leftX; x <= rightX; x++) {
+    board[topY][x] = c.wall;
+    board[bottomY][x] = c.wall;
+  }
+  for (let y = topY; y < bottomY; y++) {
+    board[y][leftX] = c.wall;
+    board[y][rightX] = c.wall;
+  }
+  return board;
 }
-    
+
 
 
 /**
@@ -347,10 +347,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = -1; xDiff = 0; break; }
-    case 's': { yDiff = 1; xDiff = 0; break; }
-    case 'a': { yDiff = 0; xDiff = -1; break; }
-    case 'd': { yDiff = 0; xDiff = 1; break; }
+      case 'w': { yDiff = -1; xDiff = 0; break; }
+      case 's': { yDiff = 1; xDiff = 0; break; }
+      case 'a': { yDiff = 0; xDiff = -1; break; }
+      case 'd': { yDiff = 0; xDiff = 1; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
