@@ -84,22 +84,22 @@ const ENEMY_INFO = {
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
   [ENEMY.RAT]: {
     health: 10, attack: 1, defense: 0,
-    icon: ENEMY.RAT, race: 'Rat', isBoss: false
+    icon: ENEMY.RAT, race: 'Rat', isBoss: false,
   },
 
   [ENEMY.BANDIT]: {
     health: 20, attack: 3, defense: 1,
-    icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false
+    icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false,
   },
 
   [ENEMY.SKELETON]: {
     health: 15, attack: 2, defense: 0,
-    icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false
+    icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false,
   },
 
   [ENEMY.BOSS]: {
     health: 500, attack: 10, defense: 3,
-    icon: ENEMY.BOSS, race: 'Golem', isBoss: true
+    icon: ENEMY.BOSS, race: 'Golem', isBoss: true,
   },
 };
 
@@ -133,14 +133,17 @@ function generateMap() {
         { x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
       ],
       enemies: [
-        { type: 'rat', x: 12, y: 15, name: "Raataaa", icon: ENEMY.RAT },
-        { type: 'rat', x: 13, y: 13, name: "Raaataaa", icon: ENEMY.RAT },
-        { type: 'rat', x: 25, y: 15, name: "Raaaaataaa", icon: ENEMY.RAT },
-        { type: 'rat', x: 25, y: 15, name: "Raattaaa", icon: ENEMY.RAT }
+        { type: 'rat', x: 12, y: 15, name: 'Raataaa', icon: ENEMY.RAT },
+        { type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
+        { type: 'rat', x: 25, y: 15, name: 'Raaaaataaa', icon: ENEMY.RAT },
+        { type: 'rat', x: 25, y: 15, name: 'Raattaaa', icon: ENEMY.RAT },
       ],
       items: [
-        { type: ITEMS.bread.type, x:15, y:15, name: ITEMS.bread.name, icon: ITEMS.bread.icon},
-        { type: ITEMS.bread.type, x:12, y:18, name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+        { type: ITEMS.bread.type, x:15, y:15,
+          name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+
+        { type: ITEMS.bread.type, x:12, y:18,
+          name: ITEMS.bread.name, icon: ITEMS.bread.icon},
       ],
     },
     [ROOM.B]: {
@@ -153,8 +156,11 @@ function generateMap() {
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-          { type: ITEMS.apple.type, x:14, y:58, name: ITEMS.apple.name, icon: ITEMS.apple.icon},
-          { type: ITEMS.apple.type, x:16, y:27, name: ITEMS.apple.name, icon: ITEMS.apple.icon}
+        { type: ITEMS.apple.type, x:14, y:58,
+          name: ITEMS.apple.name, icon: ITEMS.apple.icon},
+
+        { type: ITEMS.apple.type, x:16, y:27,
+          name: ITEMS.apple.name, icon: ITEMS.apple.icon},
       ],
     },
     [ROOM.C]: {
@@ -166,10 +172,17 @@ function generateMap() {
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-            { type: ITEMS.potion.type, x:4, y:6, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
-            { type: ITEMS.potion.type, x:20, y:34, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
-            { type: ITEMS.potion.type, x:16, y:54, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
-            { type: ITEMS.potion.type, x:10, y:10, name: ITEMS.potion.name, icon: ITEMS.potion.icon}
+        { type: ITEMS.potion.type, x:4, y:6,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+
+        { type: ITEMS.potion.type, x:20, y:34,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+
+        { type: ITEMS.potion.type, x:16, y:54,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+
+        { type: ITEMS.potion.type, x:10, y:10,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
       ],
     },
   };
@@ -195,7 +208,7 @@ function drawScreen() {
     getCurrentRoom().layout[2], getCurrentRoom().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
-  for(const item of getCurrentRoom().items){
+  for (const item of getCurrentRoom().items){
     addToBoard(GAME.board, item, item.icon);
   }
   showStats(GAME.player, ENEMY.RAT);
@@ -244,7 +257,7 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) {
       GAME.currentRoom = ROOM.B;
       who.x = getCurrentRoom().gates[0].y;
-      who.y = getCurrentRoom().gates[0].x +1 ;
+      who.y = getCurrentRoom().gates[0].x + 1 ;
     }
     if (GAME.currentRoom === ROOM.B) {
       //gates are reverse
@@ -281,13 +294,12 @@ function move(who, yDiff, xDiff) {
   else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon) {
     if (GAME.player.health <= 0) {
       _gameOver();
-    }
-    else {
+    } else {
       GAME.player.health -= who.attack;
     }
     return console.log('Player has been attacked');
   }
-  // ... check if taking item 
+  // ... check if taking item
   for (const items of Object.values(ITEMS)) {
     if (GAME.board[desiredXPos][desiredYPos] === items.icon) {
       //add item to player
@@ -387,7 +399,13 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
  * @param {array} enemies info of all enemies in the current room
  */
 function showStats(player, enemies) {
-  const playerStats = `Player stats:\nPlayer Name: ${player.name}\nPlayer Race: ${player.race}\nHealth: ${player.health}\nAttack: ${player.attack}\nDefense: ${player.defense}`; // ...
+  const playerStats = `Player stats:
+  Player Name: ${player.name}
+  Player Race: ${player.race}
+  Health: ${player.health}
+  Attack: ${player.attack}
+  Defense: ${player.defense}`;
+
   const enemyStats = 'Enemy stat'; // ... concatenate them with a newline
   _updateStats(playerStats, enemyStats);
 }
@@ -435,10 +453,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-      case 'w': { yDiff = 0; xDiff = -1; break; }
-      case 's': { yDiff = 0; xDiff = 1; break; }
-      case 'a': { yDiff = -1; xDiff = 0; break; }
-      case 'd': { yDiff = 1; xDiff = 0; break; }
+    case 'w': { yDiff = 0; xDiff = -1; break; }
+    case 's': { yDiff = 0; xDiff = 1; break; }
+    case 'a': { yDiff = -1; xDiff = 0; break; }
+    case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
