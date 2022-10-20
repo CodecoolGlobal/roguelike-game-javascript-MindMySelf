@@ -275,8 +275,11 @@ function move(who, yDiff, xDiff) {
     return console.log('Player has been attacked');
   }
   // ... check if taking item 
-  else if(GAME.board[desiredXPos][desiredYPos] === c.item){
-
+  for (const items of Object.values(ITEMS)) {
+    if(GAME.board[desiredXPos][desiredYPos] === items.icon){
+      //add item to player
+      GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
+    }
   }
   //     ... use `_gameOver()` if necessary
 
