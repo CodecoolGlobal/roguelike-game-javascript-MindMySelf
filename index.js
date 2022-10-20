@@ -85,7 +85,7 @@ const ENEMY_INFO = {
   [ENEMY.RAT]: { health: 10, attack: 1, defense: 0,
     icon: ENEMY.RAT, race: 'Rat', isBoss: false},
 
-  [ENEMY.Bandit ]: { health: 20, attack: 3, defense: 1,
+  [ENEMY.BANDIT ]: { health: 20, attack: 3, defense: 1,
     icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
 
   [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0,
@@ -207,8 +207,8 @@ function moveAll(yDiff, xDiff) {
  */
 function move(who, yDiff, xDiff) {
   //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
-  const desiredXPos = who.x + yDiff;
-  const desiredYPos = who.y + xDiff;
+  const desiredYPos = who.y + yDiff;
+  const desiredXPos = who.x + xDiff;
   // ... check if hit a wall
   if (GAME.board[desiredXPos][desiredYPos] === c.wall){
     return console.log('Someone tried to hit a wall');
@@ -216,7 +216,17 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
              GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
-    GAME.currentRoom = ROOM.B;
+    if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
+    if (GAME.currentRoom === ROOM.B) {
+      //gates are reversed
+      if (desiredXPos === getCurrentRoomm().gates[0].y 
+        && desiredYPos === getCurrentRoomm().gates[0].x){
+        GAME.currentRoom = ROOM.A;
+        who.x = getCurrentRoomm().gates[0].y;
+        who.y = getCurrentRoomm().gates[0].x - 1;
+
+      }
+    }
     drawScreen();
     return console.log('Moved to another room');
   }
@@ -308,7 +318,7 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
     board[y][leftX] = c.wall;
     board[y][rightX] = c.wall;
   }
-  for (let gate of getCurrentRoomm().gates) {
+  for (const gate of getCurrentRoomm().gates) {
     console.log(gate);
     board[gate.y][gate.x] = gate.icon;
   }
