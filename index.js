@@ -130,13 +130,14 @@ function generateMap() {
       layout: [10, 10, 20, 20],
       gates: [
         //{x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-        { x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
+        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
       ],
       enemies: [
-        { type: 'rat', x: 12, y: 15, name: 'Raataaa', icon: ENEMY.RAT },
-        { type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
-        { type: 'rat', x: 25, y: 15, name: 'Raaaaataaa', icon: ENEMY.RAT },
-        { type: 'rat', x: 25, y: 15, name: 'Raattaaa', icon: ENEMY.RAT },
+        { type: ENEMY.RAT, x: 12, y: 15, 
+          name: 'Raataaa', ...ENEMY_INFO[ENEMY.RAT] },
+        //{ type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
+        //{ type: 'rat', x: 25, y: 15, name: 'Raaaaataaa', icon: ENEMY.RAT },
+        //{ type: 'rat', x: 25, y: 15, name: 'Raattaaa', icon: ENEMY.RAT },
       ],
       items: [
         { type: ITEMS.bread.type, x:15, y:15,
@@ -149,8 +150,11 @@ function generateMap() {
     [ROOM.B]: {
       layout: [13, 6, 17, 70],
       gates: [
-        { x: 6, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
-        { x: 65, y: 13, icon: c.gateHorizontal, playerStart: { x: 15, y: 9 } },
+        { to: ROOM.A, x: 6, y: 15, icon: c.gateVertical,
+          playerStart: { x: 15, y: 9 } },
+
+        { to: ROOM.C, x: 65, y: 13, icon: c.gateHorizontal,
+          playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -166,7 +170,8 @@ function generateMap() {
     [ROOM.C]: {
       layout: [2, 2, 22, 60],
       gates: [
-        { x: 2, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
+        {to: ROOM.B, x: 2, y: 18, icon: c.gateVertical,
+          playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -304,15 +309,28 @@ function move(who, yDiff, xDiff) {
       //add item to player
       removeFromBoard(GAME.board, item);
       if ('damage' in ITEMS[item.name]) {
-        GAME.player.health -= ITEMS[item.name].damage;
+        GAME.player.attack += ITEMS[item.name].damage;
       } else if ('heal' in ITEMS[item.name]) {
         GAME.player.health += ITEMS[item.name].heal;
+      } else if ('defense' in ITEMS[item.name]) {
+        GAME.player.defense += ITEMS[item.name].defense;
       }
       item.x = 0;
       item.y = 0;
       item.icon = ' ';
       //GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
       console.log('Player has been picked up an item');
+    }
+  }
+  for (const enemy of getCurrentRoom().enemies) {
+    if (desiredXPos === enemy.x  && desiredYPos === enemy.y) {
+      // Write your disire here
+      //removeFromBoard live it here
+      removeFromBoard(GAME.board, enemy);
+      enemy.x = 0;
+      enemy.y = 0;
+      enemy.icon = ' ';
+      console.log('Player has been met with an enemy');
     }
   }
   //     ... use `_gameOver()` if necessary
@@ -400,6 +418,9 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
   }
   for (const item of getCurrentRoom().items){
     addToBoard(GAME.board, item, item.icon);
+  }
+  for (const enemy of getCurrentRoom().enemies){
+    addToBoard(GAME.board, enemy, enemy.icon);
   }
   return board;
 }
