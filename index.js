@@ -208,9 +208,6 @@ function drawScreen() {
     getCurrentRoom().layout[2], getCurrentRoom().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
-  for (const item of getCurrentRoom().items){
-    addToBoard(GAME.board, item, item.icon);
-  }
   showStats(GAME.player, ENEMY.RAT);
   displayBoard(GAME.board);
 }
@@ -290,6 +287,7 @@ function move(who, yDiff, xDiff) {
   else if (GAME.board[desiredXPos][desiredYPos] === c.enemy) {
     return console.log('Enemy has been attacked');
   }
+
   // ... check if attack player
   else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon) {
     if (GAME.player.health <= 0) {
@@ -299,11 +297,22 @@ function move(who, yDiff, xDiff) {
     }
     return console.log('Player has been attacked');
   }
+
   // ... check if taking item
-  for (const items of Object.values(ITEMS)) {
-    if (GAME.board[desiredXPos][desiredYPos] === items.icon) {
+  for (const item of getCurrentRoom().items) {
+    if (desiredXPos === item.x  && desiredYPos === item.y) {
       //add item to player
-      GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
+      removeFromBoard(GAME.board, item);
+      if ('damage' in ITEMS[item.name]) {
+        GAME.player.health -= ITEMS[item.name].damage;
+      } else if ('heal' in ITEMS[item.name]) {
+        GAME.player.health += ITEMS[item.name].heal;
+      }
+      item.x = 0;
+      item.y = 0;
+      item.icon = ' ';
+      //GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
+      console.log('Player has been picked up an item');
     }
   }
   //     ... use `_gameOver()` if necessary
@@ -367,6 +376,7 @@ function createBoard(width, height, emptySpace) {
   return [...Array(height)].map(() => Array(width).fill(emptySpace));
   //placeholder testnek
 }
+
 /**
  * Draw a rectangular room
  *
@@ -388,7 +398,9 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
   for (const gate of getCurrentRoom().gates) {
     board[gate.y][gate.x] = gate.icon;
   }
-  // board[getCurrentRoom().gates[0].y][getCurrentRoom().gates[0].x] = getCurrentRoom().gates[0].icon;
+  for (const item of getCurrentRoom().items){
+    addToBoard(GAME.board, item, item.icon);
+  }
   return board;
 }
 
