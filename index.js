@@ -241,27 +241,27 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reverse
-        if (desiredXPos === getCurrentRoom().gates[0].y
+      if (desiredXPos === getCurrentRoom().gates[0].y
             && desiredYPos === getCurrentRoom().gates[0].x){
-             GAME.currentRoom = ROOM.A;
-             who.x = getCurrentRoom().gates[0].y;
-             who.y = getCurrentRoom().gates[0].x - 1;
-          }
-        if (desiredXPos === getCurrentRoom().gates[1].y
-           && desiredYPos === getCurrentRoom().gates[1].x){
-            GAME.currentRoom = ROOM.C;
-            who.x = getCurrentRoom().gates[0].y;
-            who.y = getCurrentRoom().gates[0].x+1;
-        }
-    }
-      if (GAME.currentRoom === ROOM.C) {
-          if (desiredXPos === getCurrentRoom().gates[0].y
-          && desiredYPos === getCurrentRoom().gates[0].x){
-              GAME.currentRoom = ROOM.B;
-              who.x = getCurrentRoom().gates[1].y+1;
-              who.y = getCurrentRoom().gates[1].x;
-          }
+        GAME.currentRoom = ROOM.A;
+        who.x = getCurrentRoom().gates[0].y;
+        who.y = getCurrentRoom().gates[0].x - 1;
       }
+      if (desiredXPos === getCurrentRoom().gates[1].y
+           && desiredYPos === getCurrentRoom().gates[1].x){
+        GAME.currentRoom = ROOM.C;
+        who.x = getCurrentRoom().gates[0].y;
+        who.y = getCurrentRoom().gates[0].x + 1;
+      }
+    }
+    if (GAME.currentRoom === ROOM.C) {
+      if (desiredXPos === getCurrentRoom().gates[0].y
+          && desiredYPos === getCurrentRoom().gates[0].x){
+        GAME.currentRoom = ROOM.B;
+        who.x = getCurrentRoom().gates[1].y + 1;
+        who.y = getCurrentRoom().gates[1].x;
+      }
+    }
     drawScreen();
     return console.log('Moved to another room');
   }
@@ -359,7 +359,6 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
     board[y][rightX] = c.wall;
   }
   for (const gate of getCurrentRoom().gates) {
-    console.log(gate);
     board[gate.y][gate.x] = gate.icon;
   }
   // board[getCurrentRoom().gates[0].y][getCurrentRoom().gates[0].x] = getCurrentRoom().gates[0].icon;
@@ -462,12 +461,12 @@ function _restart() {
 }
 
 const ITEMS = {
-  sword: {name: 'sword', type: 'weapon', damage: 5},
-  spear: {name: 'spear', type: 'weapon', damage: 10},
-  mace: {name: 'mace', type: 'weapon', damage: 15},
-  bread: {name: 'bread', type: 'food', heal: 5},
-  apple: {name: 'apple', type: 'food', damage: 10},
-  potion: {name: 'potion', type: 'food', damage: 25},
+  sword: {name: 'sword', type: 'weapon', damage: 5, icon: 'Sw'},
+  spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'Sp'},
+  mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'Ma'},
+  bread: {name: 'bread', type: 'food', heal: 5, icon: 'Br'},
+  apple: {name: 'apple', type: 'food', damage: 10, icon: 'Ap'},
+  potion: {name: 'potion', type: 'food', damage: 25, icon: 'Po'},
 };
 
 
