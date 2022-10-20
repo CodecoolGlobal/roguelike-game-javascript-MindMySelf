@@ -457,12 +457,12 @@ function _restart() {
 }
 
 const ITEMS = {
-  sword: {name: 'sword', type: 'weapon', damage: 5},
-  spear: {name: 'spear', type: 'weapon', damage: 10},
-  mace: {name: 'mace', type: 'weapon', damage: 15},
-  bread: {name: 'bread', type: 'food', heal: 5},
-  apple: {name: 'apple', type: 'food', damage: 10},
-  potion: {name: 'potion', type: 'food', damage: 25},
+  sword: {name: 'sword', type: 'weapon', damage: 5, icon: 'Sw'},
+  spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'Sp'},
+  mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'Ma'},
+  bread: {name: 'bread', type: 'food', heal: 5, icon: 'Br'},
+  apple: {name: 'apple', type: 'food', damage: 10, icon: 'Ap'},
+  potion: {name: 'potion', type: 'food', damage: 25, icon: 'Po'},
 };
 
 
