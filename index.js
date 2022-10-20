@@ -104,8 +104,8 @@ function init() {
   GAME.map = generateMap();
   GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
   GAME.player = initPlayer(playerName.value, playerRace.value);
-  GAME.player.x = getCurrentRoomm().gates[0].playerStart.x;
-  GAME.player.y = getCurrentRoomm().gates[0].playerStart.y;
+  GAME.player.x = getCurrentRoom().gates[0].playerStart.x;
+  GAME.player.y = getCurrentRoom().gates[0].playerStart.y;
   drawScreen();
 }
 
@@ -191,8 +191,8 @@ function drawScreen() {
   // ... reset the board with `createBoard`
   GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
   // ... use `drawRoom`
-  drawRoom(GAME.board, getCurrentRoomm().layout[0], getCurrentRoomm().layout[1],
-    getCurrentRoomm().layout[2], getCurrentRoomm().layout[3]);
+  drawRoom(GAME.board, getCurrentRoom().layout[0], getCurrentRoom().layout[1],
+    getCurrentRoom().layout[2], getCurrentRoom().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
   showStats(GAME.player, ENEMY.RAT);
@@ -241,11 +241,11 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reversed
-      if (desiredXPos === getCurrentRoomm().gates[0].y
-        && desiredYPos === getCurrentRoomm().gates[0].x){
+      if (desiredXPos === getCurrentRoom().gates[0].y
+        && desiredYPos === getCurrentRoom().gates[0].x){
         GAME.currentRoom = ROOM.A;
-        who.x = getCurrentRoomm().gates[0].y;
-        who.y = getCurrentRoomm().gates[0].x - 1;
+        who.x = getCurrentRoom().gates[0].y;
+        who.y = getCurrentRoom().gates[0].x - 1;
 
       }
     }
@@ -340,11 +340,11 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
     board[y][leftX] = c.wall;
     board[y][rightX] = c.wall;
   }
-  for (const gate of getCurrentRoomm().gates) {
+  for (const gate of getCurrentRoom().gates) {
     console.log(gate);
     board[gate.y][gate.x] = gate.icon;
   }
-  // board[getCurrentRoomm().gates[0].y][getCurrentRoomm().gates[0].x] = getCurrentRoomm().gates[0].icon;
+  // board[getCurrentRoom().gates[0].y][getCurrentRoom().gates[0].x] = getCurrentRoom().gates[0].icon;
   return board;
 }
 
@@ -453,7 +453,7 @@ const ITEMS = {
 };
 
 
-function getCurrentRoomm() {
+function getCurrentRoom() {
   return GAME.map[GAME.currentRoom];
 }
 
