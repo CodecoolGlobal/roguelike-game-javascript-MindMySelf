@@ -416,10 +416,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'a': { yDiff = -1; xDiff = 0; break; }
-    case 'd': { yDiff = 1; xDiff = 0; break; }
     case 'w': { yDiff = 0; xDiff = -1; break; }
     case 's': { yDiff = 0; xDiff = 1; break; }
+    case 'a': { yDiff = -1; xDiff = 0; break; }
+    case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
