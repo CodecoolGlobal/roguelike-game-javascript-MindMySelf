@@ -101,8 +101,8 @@ const ENEMY_INFO = {
  */
 function init() {
   GAME.currentRoom = ROOM.A;
-  GAME.map = generateMap(); 
-  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace); //üres mátrix
+  GAME.map = generateMap();
+  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
   GAME.player = initPlayer(playerName.value, playerRace.value);
   GAME.player.x = getCurrentRoomm().gates[0].playerStart.x;
   GAME.player.y = getCurrentRoomm().gates[0].playerStart.y;
@@ -133,7 +133,18 @@ function generateMap() {
     [ROOM.B]: {
       layout: [13, 6, 17, 70],
       gates: [
-        {x: 6, y: 15, icon: c.gateVertical, playerStart: { x: 7, y: 15 } },
+        {x: 6, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
+        {x: 65, y: 13, icon: c.gateHorizontal, playerStart: { x: 15, y: 9 } },
+      ],
+      enemies: [
+        // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
+      ],
+      items: [],
+    },
+    [ROOM.C]: {
+      layout: [2, 2, 22, 60],
+      gates: [
+        {x: 3, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -157,7 +168,7 @@ function displayBoard(board) {
  */
 function drawScreen() {
   // ... reset the board with `createBoard`
-  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace); 
+  GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
   // ... use `drawRoom`
   drawRoom(GAME.board, getCurrentRoomm().layout[0], getCurrentRoomm().layout[1],
     getCurrentRoomm().layout[2], getCurrentRoomm().layout[3]);
@@ -205,8 +216,8 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
              GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
-              GAME.currentRoom = ROOM.B;
-              drawScreen();
+    GAME.currentRoom = ROOM.B;
+    drawScreen();
     return console.log('Moved to another room');
   }
   // ... check if attack enemy
@@ -297,10 +308,14 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
     board[y][leftX] = c.wall;
     board[y][rightX] = c.wall;
   }
-  board[getCurrentRoomm().gates[0].y][getCurrentRoomm().gates[0].x] = getCurrentRoomm().gates[0].icon;
+  for (let gate of getCurrentRoomm().gates) {
+    console.log(gate);
+    board[gate.y][gate.x] = gate.icon;
+  }
+  // board[getCurrentRoomm().gates[0].y][getCurrentRoomm().gates[0].x] = getCurrentRoomm().gates[0].icon;
   return board;
 }
-    
+
 /**
  * Print stats to the user
  *
@@ -356,10 +371,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-      case 'w': { yDiff = -1; xDiff = 0; break; }
-      case 's': { yDiff = 1; xDiff = 0; break; }
-      case 'a': { yDiff = 0; xDiff = -1; break; }
-      case 'd': { yDiff = 0; xDiff = 1; break; }
+    case 'w': { yDiff = -1; xDiff = 0; break; }
+    case 's': { yDiff = 1; xDiff = 0; break; }
+    case 'a': { yDiff = 0; xDiff = -1; break; }
+    case 'd': { yDiff = 0; xDiff = 1; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
