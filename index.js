@@ -394,7 +394,7 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
  * @param {array} enemies info of all enemies in the current room
  */
 function showStats(player, enemies) {
-  const playerStats = `Player stats:\nHealth: ${player.health}\nAttack: ${player.attack}\nDefense: ${player.defense}`; // ...
+  const playerStats = `Player stats:\nPlayer Name: ${player.name}\nPlayer Race: ${player.race}\nHealth: ${player.health}\nAttack: ${player.attack}\nDefense: ${player.defense}`; // ...
   const enemyStats = 'Enemy stat'; // ... concatenate them with a newline
   _updateStats(playerStats, enemyStats);
 }
