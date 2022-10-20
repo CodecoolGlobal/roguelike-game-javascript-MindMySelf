@@ -125,10 +125,15 @@ function generateMap() {
         {x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
       ],
       enemies: [
-        { type: ENEMY.RAT, x: 25, y: 15,
-          name: 'Rattata', ...ENEMY_INFO[ENEMY.RAT] },
+        { type: 'rat', x: 12, y: 15, name: "Raataaa", icon: ENEMY.RAT },
+        { type: 'rat', x: 13, y: 13, name: "Raaataaa", icon: ENEMY.RAT },
+        { type: 'rat', x: 25, y: 15, name: "Raaaaataaa", icon: ENEMY.RAT },
+        { type: 'rat', x: 25, y: 15, name: "Raattaaa", icon: ENEMY.RAT }
       ],
-      items: [],
+      items: [
+        { type: ITEMS.bread.type, x:15, y:15, name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+        { type: ITEMS.bread.type, x:12, y:18, name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+      ],
     },
     [ROOM.B]: {
       layout: [13, 6, 17, 70],
@@ -140,8 +145,8 @@ function generateMap() {
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-        //   { type: ITEMS.apple.type, x:4, y:5, name: ITEMS.apple.name},
-        //   { type: ITEMS.apple.type, x:8, y:7, name: ITEMS.apple.name}
+          { type: ITEMS.apple.type, x:14, y:58, name: ITEMS.apple.name, icon: ITEMS.apple.icon},
+          { type: ITEMS.apple.type, x:16, y:27, name: ITEMS.apple.name, icon: ITEMS.apple.icon}
       ],
     },
     [ROOM.C]: {
@@ -153,25 +158,12 @@ function generateMap() {
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-        //   { type: ITEMS.apple.type, x:4, y:5, name: ITEMS.apple.name},
-        //   { type: ITEMS.apple.type, x:8, y:7, name: ITEMS.apple.name}
+            { type: ITEMS.potion.type, x:4, y:6, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+            { type: ITEMS.potion.type, x:20, y:34, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+            { type: ITEMS.potion.type, x:16, y:54, name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+            { type: ITEMS.potion.type, x:10, y:10, name: ITEMS.potion.name, icon: ITEMS.potion.icon}
       ],
     },
-    // [ROOM.C]: {
-    //   layout: [10, 15, 40, 55],
-    //   gates: [
-    //     // { to: ROOM.A, x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-    //   ],
-    //   enemies: [
-    //     // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
-    //   ],
-    //   items: [
-    //     { type: ITEMS.potion.type, x:12, y:15, name: ITEMS.potion.name},
-    //     { type: ITEMS.potion.type, x:14, y:34, name: ITEMS.potion.name},
-    //     { type: ITEMS.potion.type, x:1, y:12, name: ITEMS.potion.name},
-    //     { type: ITEMS.potion.type, x:10, y:10, name: ITEMS.potion.name}
-    //   ],
-    // },
   };
 }
 
@@ -195,6 +187,9 @@ function drawScreen() {
     getCurrentRoom().layout[2], getCurrentRoom().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
+  for(const item of getCurrentRoom().items){
+    addToBoard(GAME.board, item, item.icon);
+  }
   showStats(GAME.player, ENEMY.RAT);
   displayBoard(GAME.board);
 }
@@ -456,12 +451,12 @@ function _restart() {
 }
 
 const ITEMS = {
-  sword: {name: 'sword', type: 'weapon', damage: 5, icon: 'Sw'},
-  spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'Sp'},
-  mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'Ma'},
-  bread: {name: 'bread', type: 'food', heal: 5, icon: 'Br'},
-  apple: {name: 'apple', type: 'food', damage: 10, icon: 'Ap'},
-  potion: {name: 'potion', type: 'food', damage: 25, icon: 'Po'},
+  sword: {name: 'sword', type: 'weapon', damage: 5, icon: 'W'},
+  spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'S'},
+  mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'M'},
+  bread: {name: 'bread', type: 'food', heal: 5, icon: 'B'},
+  apple: {name: 'apple', type: 'food', damage: 10, icon: 'A'},
+  potion: {name: 'potion', type: 'food', damage: 25, icon: 'P'},
 };
 
 
