@@ -276,7 +276,7 @@ function removeFromBoard(board, item) {
  * @returns
  */
 function createBoard(width, height, emptySpace) {
-  return [...Array(height)].map((e) => Array(width).fill(emptySpace));
+  return [...Array(height)].map(() => Array(width).fill(emptySpace));
   //placeholder testnek
 }
 /**
@@ -300,9 +300,7 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
   board[getCurrentRoomm().gates[0].y][getCurrentRoomm().gates[0].x] = getCurrentRoomm().gates[0].icon;
   return board;
 }
-
-
-
+    
 /**
  * Print stats to the user
  *
@@ -358,10 +356,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = -1; xDiff = 0; break; }
-    case 's': { yDiff = 1; xDiff = 0; break; }
-    case 'a': { yDiff = 0; xDiff = -1; break; }
-    case 'd': { yDiff = 0; xDiff = 1; break; }
+      case 'w': { yDiff = -1; xDiff = 0; break; }
+      case 's': { yDiff = 1; xDiff = 0; break; }
+      case 'a': { yDiff = 0; xDiff = -1; break; }
+      case 'd': { yDiff = 0; xDiff = 1; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
