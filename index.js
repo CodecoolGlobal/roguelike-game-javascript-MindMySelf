@@ -241,25 +241,25 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reverse
-        if (desiredXPos === getCurrentRoomm().gates[0].y
-            && desiredYPos === getCurrentRoomm().gates[0].x){
+        if (desiredXPos === getCurrentRoom().gates[0].y
+            && desiredYPos === getCurrentRoom().gates[0].x){
              GAME.currentRoom = ROOM.A;
-             who.x = getCurrentRoomm().gates[0].y;
-             who.y = getCurrentRoomm().gates[0].x - 1;
+             who.x = getCurrentRoom().gates[0].y;
+             who.y = getCurrentRoom().gates[0].x - 1;
           }
-        if (desiredXPos === getCurrentRoomm().gates[1].y
-           && desiredYPos === getCurrentRoomm().gates[1].x){
+        if (desiredXPos === getCurrentRoom().gates[1].y
+           && desiredYPos === getCurrentRoom().gates[1].x){
             GAME.currentRoom = ROOM.C;
-            who.x = getCurrentRoomm().gates[0].y;
-            who.y = getCurrentRoomm().gates[0].x+1;
+            who.x = getCurrentRoom().gates[0].y;
+            who.y = getCurrentRoom().gates[0].x+1;
         }
     }
       if (GAME.currentRoom === ROOM.C) {
-          if (desiredXPos === getCurrentRoomm().gates[0].y
-          && desiredYPos === getCurrentRoomm().gates[0].x){
+          if (desiredXPos === getCurrentRoom().gates[0].y
+          && desiredYPos === getCurrentRoom().gates[0].x){
               GAME.currentRoom = ROOM.B;
-              who.x = getCurrentRoomm().gates[1].y+1;
-              who.y = getCurrentRoomm().gates[1].x;
+              who.x = getCurrentRoom().gates[1].y+1;
+              who.y = getCurrentRoom().gates[1].x;
           }
       }
     drawScreen();
