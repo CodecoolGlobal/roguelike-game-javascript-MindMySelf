@@ -147,7 +147,7 @@ function generateMap() {
     [ROOM.C]: {
       layout: [2, 2, 22, 60],
       gates: [
-        {x: 3, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
+        {x: 2, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -240,15 +240,28 @@ function move(who, yDiff, xDiff) {
              GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
-      //gates are reversed
-      if (desiredXPos === getCurrentRoom().gates[0].y
-        && desiredYPos === getCurrentRoom().gates[0].x){
-        GAME.currentRoom = ROOM.A;
-        who.x = getCurrentRoom().gates[0].y;
-        who.y = getCurrentRoom().gates[0].x - 1;
-
-      }
+      //gates are reverse
+        if (desiredXPos === getCurrentRoomm().gates[0].y
+            && desiredYPos === getCurrentRoomm().gates[0].x){
+             GAME.currentRoom = ROOM.A;
+             who.x = getCurrentRoomm().gates[0].y;
+             who.y = getCurrentRoomm().gates[0].x - 1;
+          }
+        if (desiredXPos === getCurrentRoomm().gates[1].y
+           && desiredYPos === getCurrentRoomm().gates[1].x){
+            GAME.currentRoom = ROOM.C;
+            who.x = getCurrentRoomm().gates[0].y;
+            who.y = getCurrentRoomm().gates[0].x+1;
+        }
     }
+      if (GAME.currentRoom === ROOM.C) {
+          if (desiredXPos === getCurrentRoomm().gates[0].y
+          && desiredYPos === getCurrentRoomm().gates[0].x){
+              GAME.currentRoom = ROOM.B;
+              who.x = getCurrentRoomm().gates[1].y+1;
+              who.y = getCurrentRoomm().gates[1].x;
+          }
+      }
     drawScreen();
     return console.log('Moved to another room');
   }
