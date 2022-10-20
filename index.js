@@ -163,6 +163,7 @@ function drawScreen() {
     getCurrentRoomm().layout[2], getCurrentRoomm().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
+  showStats(GAME.player, ENEMY.RAT);
   displayBoard(GAME.board);
 }
 
@@ -317,8 +318,8 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
  * @param {array} enemies info of all enemies in the current room
  */
 function showStats(player, enemies) {
-  const playerStats = ''; // ...
-  const enemyStats = ''; // ... concatenate them with a newline
+  const playerStats = `Player stats:\nHealth: ${player.health}\nAttack: ${player.attack}\nDefense: ${player.defense}`; // ...
+  const enemyStats = 'Enemy stat'; // ... concatenate them with a newline
   _updateStats(playerStats, enemyStats);
 }
 
