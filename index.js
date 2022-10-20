@@ -220,7 +220,7 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reversed
-      if (desiredXPos === getCurrentRoomm().gates[0].y 
+      if (desiredXPos === getCurrentRoomm().gates[0].y
         && desiredYPos === getCurrentRoomm().gates[0].x){
         GAME.currentRoom = ROOM.A;
         who.x = getCurrentRoomm().gates[0].y;
@@ -382,10 +382,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = -1; xDiff = 0; break; }
-    case 's': { yDiff = 1; xDiff = 0; break; }
-    case 'a': { yDiff = 0; xDiff = -1; break; }
-    case 'd': { yDiff = 0; xDiff = 1; break; }
+    case 'w': { yDiff = 0; xDiff = -1; break; }
+    case 's': { yDiff = 0; xDiff = 1; break; }
+    case 'a': { yDiff = -1; xDiff = 0; break; }
+    case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
