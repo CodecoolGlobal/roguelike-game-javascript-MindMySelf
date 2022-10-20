@@ -139,7 +139,10 @@ function generateMap() {
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
-      items: [],
+      items: [
+        //   { type: ITEMS.apple.type, x:4, y:5, name: ITEMS.apple.name},
+        //   { type: ITEMS.apple.type, x:8, y:7, name: ITEMS.apple.name}
+      ],
     },
     [ROOM.C]: {
       layout: [2, 2, 22, 60],
@@ -149,8 +152,26 @@ function generateMap() {
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
-      items: [],
+      items: [
+        //   { type: ITEMS.apple.type, x:4, y:5, name: ITEMS.apple.name},
+        //   { type: ITEMS.apple.type, x:8, y:7, name: ITEMS.apple.name}
+      ],
     },
+    // [ROOM.C]: {
+    //   layout: [10, 15, 40, 55],
+    //   gates: [
+    //     // { to: ROOM.A, x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
+    //   ],
+    //   enemies: [
+    //     // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
+    //   ],
+    //   items: [
+    //     { type: ITEMS.potion.type, x:12, y:15, name: ITEMS.potion.name},
+    //     { type: ITEMS.potion.type, x:14, y:34, name: ITEMS.potion.name},
+    //     { type: ITEMS.potion.type, x:1, y:12, name: ITEMS.potion.name},
+    //     { type: ITEMS.potion.type, x:10, y:10, name: ITEMS.potion.name}
+    //   ],
+    // },
   };
 }
 
@@ -395,10 +416,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = 0; xDiff = -1; break; }
-    case 's': { yDiff = 0; xDiff = 1; break; }
     case 'a': { yDiff = -1; xDiff = 0; break; }
     case 'd': { yDiff = 1; xDiff = 0; break; }
+    case 'w': { yDiff = 0; xDiff = -1; break; }
+    case 's': { yDiff = 0; xDiff = 1; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
@@ -435,8 +456,19 @@ function _restart() {
   init();
 }
 
+const ITEMS = {
+  sword: {name: 'sword', type: 'weapon', damage: 5},
+  spear: {name: 'spear', type: 'weapon', damage: 10},
+  mace: {name: 'mace', type: 'weapon', damage: 15},
+  bread: {name: 'bread', type: 'food', heal: 5},
+  apple: {name: 'apple', type: 'food', damage: 10},
+  potion: {name: 'potion', type: 'food', damage: 25},
+};
+
+
 function getCurrentRoomm() {
   return GAME.map[GAME.currentRoom];
 }
 
 init();
+
