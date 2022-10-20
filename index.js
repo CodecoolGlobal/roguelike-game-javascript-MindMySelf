@@ -196,8 +196,8 @@ function moveAll(yDiff, xDiff) {
  */
 function move(who, yDiff, xDiff) {
   //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
-  const desiredXPos = who.x + yDiff;
-  const desiredYPos = who.y + xDiff;
+  const desiredYPos = who.y + yDiff;
+  const desiredXPos = who.x + xDiff;
   // ... check if hit a wall
   if (GAME.board[desiredXPos][desiredYPos] === c.wall){
     return console.log('Someone tried to hit a wall');
@@ -205,8 +205,17 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
              GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
-              GAME.currentRoom = ROOM.B;
-              drawScreen();
+      if(GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
+      if(GAME.currentRoom === ROOM.B) {
+          //gates are reversed
+          if(desiredXPos === getCurrentRoomm().gates[0].y && desiredYPos === getCurrentRoomm().gates[0].x){
+              GAME.currentRoom = ROOM.A;
+              who.x = getCurrentRoomm().gates[0].y;
+              who.y = getCurrentRoomm().gates[0].x-1;
+
+          }
+      }
+      drawScreen();
     return console.log('Moved to another room');
   }
   // ... check if attack enemy
@@ -356,10 +365,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-      case 'w': { yDiff = -1; xDiff = 0; break; }
-      case 's': { yDiff = 1; xDiff = 0; break; }
-      case 'a': { yDiff = 0; xDiff = -1; break; }
-      case 'd': { yDiff = 0; xDiff = 1; break; }
+      case 'w': { yDiff = 0; xDiff = -1; break; }
+      case 's': { yDiff = 0; xDiff = 1; break; }
+      case 'a': { yDiff = -1; xDiff = 0; break; }
+      case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
