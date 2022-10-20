@@ -241,6 +241,7 @@ function moveAll(yDiff, xDiff) {
  * @returns
  */
 function move(who, yDiff, xDiff) {
+
   //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
   const desiredYPos = who.y + yDiff;
   const desiredXPos = who.x + xDiff;
@@ -279,6 +280,7 @@ function move(who, yDiff, xDiff) {
         who.y = getCurrentRoom().gates[1].x;
       }
     }
+
     drawScreen();
     return console.log('Moved to another room');
   }
@@ -326,7 +328,9 @@ function move(who, yDiff, xDiff) {
   who.y = desiredYPos;
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
   drawScreen();
-
+  if (GAME.player.health <= 0) {
+    console.log("lefutok");
+    _gameOver();}
 
 }
 
