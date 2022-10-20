@@ -241,7 +241,7 @@ function move(who, yDiff, xDiff) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reversed
-      if (desiredXPos === getCurrentRoomm().gates[0].y 
+      if (desiredXPos === getCurrentRoomm().gates[0].y
         && desiredYPos === getCurrentRoomm().gates[0].x){
         GAME.currentRoom = ROOM.A;
         who.x = getCurrentRoomm().gates[0].y;
