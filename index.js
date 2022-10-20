@@ -369,7 +369,6 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
     board[y][rightX] = c.wall;
   }
   for (const gate of getCurrentRoom().gates) {
-    console.log(gate);
     board[gate.y][gate.x] = gate.icon;
   }
   // board[getCurrentRoom().gates[0].y][getCurrentRoom().gates[0].x] = getCurrentRoom().gates[0].icon;
