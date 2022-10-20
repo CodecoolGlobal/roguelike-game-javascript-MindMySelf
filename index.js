@@ -82,17 +82,25 @@ const ENEMY = {
 const ENEMY_INFO = {
 
   // [ENEMY.RAT]: { health: 10, attack: 1, defense: 0, icon: ENEMY.RAT, race: "Rat", isBoss: false },
-  [ENEMY.RAT]: { health: 10, attack: 1, defense: 0,
-    icon: ENEMY.RAT, race: 'Rat', isBoss: false},
+  [ENEMY.RAT]: {
+    health: 10, attack: 1, defense: 0,
+    icon: ENEMY.RAT, race: 'Rat', isBoss: false
+  },
 
-  [ENEMY.BANDIT ]: { health: 20, attack: 3, defense: 1,
-    icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false},
+  [ENEMY.BANDIT]: {
+    health: 20, attack: 3, defense: 1,
+    icon: ENEMY.BANDIT, race: 'Bandit', isBoss: false
+  },
 
-  [ENEMY.SKELETON]: { health: 15, attack: 2, defense: 0,
-    icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false},
+  [ENEMY.SKELETON]: {
+    health: 15, attack: 2, defense: 0,
+    icon: ENEMY.SKELETON, race: 'Skeleton', isBoss: false
+  },
 
-  [ENEMY.BOSS]: { health: 500, attack: 10, defense: 3,
-    icon: ENEMY.BOSS, race: 'Golem', isBoss: true},
+  [ENEMY.BOSS]: {
+    health: 500, attack: 10, defense: 3,
+    icon: ENEMY.BOSS, race: 'Golem', isBoss: true
+  },
 };
 
 
@@ -122,19 +130,21 @@ function generateMap() {
       layout: [10, 10, 20, 20],
       gates: [
         //{x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-        {x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
+        { x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
       ],
       enemies: [
-        { type: ENEMY.RAT, x: 25, y: 15,
-          name: 'Rattata', ...ENEMY_INFO[ENEMY.RAT] },
+        {
+          type: ENEMY.RAT, x: 25, y: 15,
+          name: 'Rattata', ...ENEMY_INFO[ENEMY.RAT]
+        },
       ],
       items: [],
     },
     [ROOM.B]: {
       layout: [13, 6, 17, 70],
       gates: [
-        {x: 6, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
-        {x: 65, y: 13, icon: c.gateHorizontal, playerStart: { x: 15, y: 9 } },
+        { x: 6, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
+        { x: 65, y: 13, icon: c.gateHorizontal, playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -147,7 +157,7 @@ function generateMap() {
     [ROOM.C]: {
       layout: [2, 2, 22, 60],
       gates: [
-        {x: 2, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
+        { x: 2, y: 18, icon: c.gateVertical, playerStart: { x: 15, y: 9 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -232,54 +242,59 @@ function move(who, yDiff, xDiff) {
   const desiredYPos = who.y + yDiff;
   const desiredXPos = who.x + xDiff;
   // ... check if hit a wall
-  if (GAME.board[desiredXPos][desiredYPos] === c.wall){
+  if (GAME.board[desiredXPos][desiredYPos] === c.wall) {
     return console.log('Someone tried to hit a wall');
   }
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
-             GAME.board[desiredXPos][desiredYPos] === c.gateVertical){
+    GAME.board[desiredXPos][desiredYPos] === c.gateVertical) {
     if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
     if (GAME.currentRoom === ROOM.B) {
       //gates are reverse
-        if (desiredXPos === getCurrentRoom().gates[0].y
-            && desiredYPos === getCurrentRoom().gates[0].x){
-             GAME.currentRoom = ROOM.A;
-             who.x = getCurrentRoom().gates[0].y;
-             who.y = getCurrentRoom().gates[0].x - 1;
-          }
-        if (desiredXPos === getCurrentRoom().gates[1].y
-           && desiredYPos === getCurrentRoom().gates[1].x){
-            GAME.currentRoom = ROOM.C;
-            who.x = getCurrentRoom().gates[0].y;
-            who.y = getCurrentRoom().gates[0].x+1;
-        }
-    }
-      if (GAME.currentRoom === ROOM.C) {
-          if (desiredXPos === getCurrentRoom().gates[0].y
-          && desiredYPos === getCurrentRoom().gates[0].x){
-              GAME.currentRoom = ROOM.B;
-              who.x = getCurrentRoom().gates[1].y+1;
-              who.y = getCurrentRoom().gates[1].x;
-          }
+      if (desiredXPos === getCurrentRoom().gates[0].y
+        && desiredYPos === getCurrentRoom().gates[0].x) {
+        GAME.currentRoom = ROOM.A;
+        who.x = getCurrentRoom().gates[0].y;
+        who.y = getCurrentRoom().gates[0].x - 1;
       }
+      if (desiredXPos === getCurrentRoom().gates[1].y
+        && desiredYPos === getCurrentRoom().gates[1].x) {
+        GAME.currentRoom = ROOM.C;
+        who.x = getCurrentRoom().gates[0].y;
+        who.y = getCurrentRoom().gates[0].x + 1;
+      }
+    }
+    if (GAME.currentRoom === ROOM.C) {
+      if (desiredXPos === getCurrentRoom().gates[0].y
+        && desiredYPos === getCurrentRoom().gates[0].x) {
+        GAME.currentRoom = ROOM.B;
+        who.x = getCurrentRoom().gates[1].y + 1;
+        who.y = getCurrentRoom().gates[1].x;
+      }
+    }
     drawScreen();
     return console.log('Moved to another room');
   }
   // ... check if attack enemy
-  else if (GAME.board[desiredXPos][desiredYPos] === c.enemy){
+  else if (GAME.board[desiredXPos][desiredYPos] === c.enemy) {
     return console.log('Enemy has been attacked');
   }
   // ... check if attack player
-  else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon){
+  else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon) {
+    if (GAME.player.health <= 0) {
+      _gameOver();
+    }
+    else {
+      GAME.player.health -= who.attack;
+    }
     return console.log('Player has been attacked');
   }
   //     ... use `_gameOver()` if necessary
 
   // ... check if move to empty space
-  if (GAME.board[desiredXPos][desiredYPos] !== c.emptySpace){
+  if (GAME.board[desiredXPos][desiredYPos] !== c.emptySpace) {
     return console.log('Tried to move to non empty space');
   }
-
   removeFromBoard(GAME.board, GAME.player);
   who.x = desiredXPos;
   who.y = desiredYPos;
@@ -416,10 +431,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = 0; xDiff = -1; break; }
-    case 's': { yDiff = 0; xDiff = 1; break; }
-    case 'a': { yDiff = -1; xDiff = 0; break; }
-    case 'd': { yDiff = 1; xDiff = 0; break; }
+      case 'w': { yDiff = 0; xDiff = -1; break; }
+      case 's': { yDiff = 0; xDiff = 1; break; }
+      case 'a': { yDiff = -1; xDiff = 0; break; }
+      case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
@@ -457,12 +472,12 @@ function _restart() {
 }
 
 const ITEMS = {
-  sword: {name: 'sword', type: 'weapon', damage: 5},
-  spear: {name: 'spear', type: 'weapon', damage: 10},
-  mace: {name: 'mace', type: 'weapon', damage: 15},
-  bread: {name: 'bread', type: 'food', heal: 5},
-  apple: {name: 'apple', type: 'food', damage: 10},
-  potion: {name: 'potion', type: 'food', damage: 25},
+  sword: { name: 'sword', type: 'weapon', damage: 5 },
+  spear: { name: 'spear', type: 'weapon', damage: 10 },
+  mace: { name: 'mace', type: 'weapon', damage: 15 },
+  bread: { name: 'bread', type: 'food', heal: 5 },
+  apple: { name: 'apple', type: 'food', damage: 10 },
+  potion: { name: 'potion', type: 'food', damage: 25 },
 };
 
 
