@@ -32,7 +32,7 @@ const GAME = {
  */
 function initPlayer(name, race) {
   return {
-    x: 15,
+    x: 19,
     y: 15,
     name: name,
     icon: '@',
@@ -112,8 +112,8 @@ function init() {
   GAME.map = generateMap();
   GAME.board = createBoard(c.boardWidth, c.boardHeight, c.emptySpace);
   GAME.player = initPlayer(playerName.value, playerRace.value);
-  GAME.player.x = getCurrentRoom().gates[0].playerStart.x;
-  GAME.player.y = getCurrentRoom().gates[0].playerStart.y;
+  // GAME.player.x = getCurrentRoom().gates[0].playerStart.x;
+  // GAME.player.y = getCurrentRoom().gates[0].playerStart.y;
   drawScreen();
 }
 
@@ -130,11 +130,12 @@ function generateMap() {
       layout: [10, 10, 20, 20],
       gates: [
         //{x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 19, y: 15 } },
+        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 7 } },
       ],
       enemies: [
         { type: ENEMY.RAT, x: 12, y: 15, 
           name: 'Raataaa', ...ENEMY_INFO[ENEMY.RAT] },
+        // ^^^^^^^^^   please keep tis format for enemys ^^^^^^^^^^^^^
         //{ type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
         //{ type: 'rat', x: 25, y: 15, name: 'Raaaaataaa', icon: ENEMY.RAT },
         //{ type: 'rat', x: 25, y: 15, name: 'Raattaaa', icon: ENEMY.RAT },
@@ -151,10 +152,10 @@ function generateMap() {
       layout: [13, 6, 17, 70],
       gates: [
         { to: ROOM.A, x: 6, y: 15, icon: c.gateVertical,
-          playerStart: { x: 15, y: 9 } },
+          playerStart: { x: 15, y: 19 } },
 
         { to: ROOM.C, x: 65, y: 13, icon: c.gateHorizontal,
-          playerStart: { x: 15, y: 9 } },
+          playerStart: { x:18, y:3  } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -171,7 +172,7 @@ function generateMap() {
       layout: [2, 2, 22, 60],
       gates: [
         {to: ROOM.B, x: 2, y: 18, icon: c.gateVertical,
-          playerStart: { x: 15, y: 9 } },
+          playerStart: { x: 14, y: 65 } },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
@@ -256,32 +257,12 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
     GAME.board[desiredXPos][desiredYPos] === c.gateVertical) {
-    if (GAME.currentRoom === ROOM.A) {
-      GAME.currentRoom = ROOM.B;
-      who.x = getCurrentRoom().gates[0].y;
-      who.y = getCurrentRoom().gates[0].x + 1 ;
-    }
-    if (GAME.currentRoom === ROOM.B) {
-      //gates are reverse
-      if (desiredXPos === getCurrentRoom().gates[0].y
-        && desiredYPos === getCurrentRoom().gates[0].x) {
-        GAME.currentRoom = ROOM.A;
-        who.x = getCurrentRoom().gates[0].y;
-        who.y = getCurrentRoom().gates[0].x - 1;
-      }
-      if (desiredXPos === getCurrentRoom().gates[1].y
-        && desiredYPos === getCurrentRoom().gates[1].x) {
-        GAME.currentRoom = ROOM.C;
-        who.x = getCurrentRoom().gates[0].y;
-        who.y = getCurrentRoom().gates[0].x + 1;
-      }
-    }
-    if (GAME.currentRoom === ROOM.C) {
-      if (desiredXPos === getCurrentRoom().gates[0].y
-        && desiredYPos === getCurrentRoom().gates[0].x) {
-        GAME.currentRoom = ROOM.B;
-        who.x = getCurrentRoom().gates[1].y + 1;
-        who.y = getCurrentRoom().gates[1].x;
+    for (const gate of getCurrentRoom().gates) {
+      console.log(desiredXPos, gate.x, desiredYPos, gate.y);
+      if (desiredXPos === gate.y  && desiredYPos === gate.x) {
+        GAME.currentRoom = gate.to;
+        who.x = gate.playerStart.x;
+        who.y = gate.playerStart.y;
       }
     }
     drawScreen();
