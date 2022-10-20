@@ -265,6 +265,7 @@ function move(who, yDiff, xDiff) {
     drawScreen();
     return console.log('Moved to another room');
   }
+
   // ... check if attack enemy
   else if (GAME.board[desiredXPos][desiredYPos] === c.enemy){
     return console.log('Enemy has been attacked');
@@ -272,6 +273,10 @@ function move(who, yDiff, xDiff) {
   // ... check if attack player
   else if (GAME.board[desiredXPos][desiredYPos] === GAME.player.icon){
     return console.log('Player has been attacked');
+  }
+  // ... check if taking item 
+  else if(GAME.board[desiredXPos][desiredYPos] === c.item){
+
   }
   //     ... use `_gameOver()` if necessary
 
