@@ -248,7 +248,11 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
     GAME.board[desiredXPos][desiredYPos] === c.gateVertical) {
-    if (GAME.currentRoom === ROOM.A) GAME.currentRoom = ROOM.B;
+    if (GAME.currentRoom === ROOM.A) {
+      GAME.currentRoom = ROOM.B;
+      who.x = getCurrentRoom().gates[0].y;
+      who.y = getCurrentRoom().gates[0].x +1 ;
+    }
     if (GAME.currentRoom === ROOM.B) {
       //gates are reverse
       if (desiredXPos === getCurrentRoom().gates[0].y
@@ -292,7 +296,7 @@ function move(who, yDiff, xDiff) {
   }
   // ... check if taking item 
   for (const items of Object.values(ITEMS)) {
-    if(GAME.board[desiredXPos][desiredYPos] === items.icon){
+    if (GAME.board[desiredXPos][desiredYPos] === items.icon) {
       //add item to player
       GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
     }
