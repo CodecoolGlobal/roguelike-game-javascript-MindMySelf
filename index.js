@@ -130,10 +130,11 @@ function generateMap() {
       layout: [10, 10, 20, 20],
       gates: [
         //{x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical, playerStart: { x: 15, y: 7 } },
+        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical,
+          playerStart: { x: 15, y: 7 } },
       ],
       enemies: [
-        { type: ENEMY.RAT, x: 12, y: 15, 
+        { type: ENEMY.RAT, x: 12, y: 15,
           name: 'Raataaa', ...ENEMY_INFO[ENEMY.RAT] },
         // ^^^^^^^^^   please keep tis format for enemys ^^^^^^^^^^^^^
         //{ type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
@@ -251,22 +252,22 @@ function move(who, yDiff, xDiff) {
   //console.log(`Player position - X: ${who.x} Y: ${who.y}`);
   const desiredYPos = who.y + yDiff;
   const desiredXPos = who.x + xDiff;
+  const isGate = GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
+    GAME.board[desiredXPos][desiredYPos] === c.gateVertical;
   // ... check if hit a wall
   if (GAME.board[desiredXPos][desiredYPos] === c.wall) {
     return console.log('Someone tried to hit a wall');
   }
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
-  else if (GAME.board[desiredXPos][desiredYPos] === c.gateHorizontal ||
-    GAME.board[desiredXPos][desiredYPos] === c.gateVertical) {
+  else if (isGate) {
     for (const gate of getCurrentRoom().gates) {
-      console.log(desiredXPos, gate.x, desiredYPos, gate.y);
-      if (desiredXPos === gate.y  && desiredYPos === gate.x) {
+      const isCurrentGate = desiredXPos === gate.y  && desiredYPos === gate.x;
+      if (isCurrentGate) {
         GAME.currentRoom = gate.to;
         who.x = gate.playerStart.x;
         who.y = gate.playerStart.y;
       }
     }
-
     drawScreen();
     return console.log('Moved to another room');
   }
@@ -286,40 +287,44 @@ function move(who, yDiff, xDiff) {
     return console.log('Player has been attacked');
   }
 
-  // ... check if taking item
-  for (const item of getCurrentRoom().items) {
-    if (desiredXPos === item.x  && desiredYPos === item.y) {
-      //add item to player
-      removeFromBoard(GAME.board, item);
-      if ('damage' in ITEMS[item.name]) {
-        GAME.player.attack += ITEMS[item.name].damage;
-      } else if ('heal' in ITEMS[item.name]) {
-        GAME.player.health += ITEMS[item.name].heal;
-      } else if ('defense' in ITEMS[item.name]) {
-        GAME.player.defense += ITEMS[item.name].defense;
-      }
-      item.x = 0;
-      item.y = 0;
-      item.icon = ' ';
-      //GAME.board[desiredXPos][desiredYPos] = c.emptySpace;
-      console.log('Player has been picked up an item');
-    }
-  }
-  for (const enemy of getCurrentRoom().enemies) {
-    if (desiredXPos === enemy.x  && desiredYPos === enemy.y) {
-      // Write your disire here
-      //removeFromBoard live it here
-      removeFromBoard(GAME.board, enemy);
-      enemy.x = 0;
-      enemy.y = 0;
-      enemy.icon = ' ';
-      console.log('Player has been met with an enemy');
-    }
-  }
+
   //     ... use `_gameOver()` if necessary
 
   // ... check if move to empty space
   if (GAME.board[desiredXPos][desiredYPos] !== c.emptySpace) {
+    // ... check if taking item
+    for (const item of getCurrentRoom().items) {
+      const isCurrentItem = desiredXPos === item.x && desiredYPos === item.y;
+      if (isCurrentItem) {
+      //add item to player
+        removeFromBoard(GAME.board, item);
+        if ('damage' in ITEMS[item.name]) {
+          GAME.player.attack += ITEMS[item.name].damage;
+        } else if ('heal' in ITEMS[item.name]) {
+          GAME.player.health += ITEMS[item.name].heal;
+        } else if ('defense' in ITEMS[item.name]) {
+          GAME.player.defense += ITEMS[item.name].defense;
+        }
+        item.x = 0;
+        item.y = 0;
+        item.icon = ' ';
+        drawScreen();
+        return console.log('Player has been picked up an item');
+      }
+    }
+    for (const enemy of getCurrentRoom().enemies) {
+      const isCurrentEnemy = desiredXPos === enemy.x && desiredYPos === enemy.y;
+      if (isCurrentEnemy) {
+      // Write your disire here
+      //removeFromBoard live it here
+        removeFromBoard(GAME.board, enemy);
+        enemy.x = 0;
+        enemy.y = 0;
+        enemy.icon = ' ';
+        drawScreen();
+        return console.log('Player has been met with an enemy');
+      }
+    }
     return console.log('Tried to move to non empty space');
   }
   removeFromBoard(GAME.board, GAME.player);
@@ -328,8 +333,9 @@ function move(who, yDiff, xDiff) {
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
   drawScreen();
   if (GAME.player.health <= 0) {
-    console.log("lefutok");
-    _gameOver();}
+    console.log('lefutok');
+    _gameOver();
+  }
 
 }
 
