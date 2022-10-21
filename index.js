@@ -522,8 +522,8 @@ const ITEMS = {
   spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'S'},
   mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'M'},
   bread: {name: 'bread', type: 'food', heal: 5, icon: 'B'},
-  apple: {name: 'apple', type: 'food', damage: 10, icon: 'A'},
-  potion: {name: 'potion', type: 'food', damage: 25, icon: 'P'},
+  apple: {name: 'apple', type: 'food', heal: 10, icon: 'A'},
+  potion: {name: 'potion', type: 'food', heal: 25, icon: 'P'},
 };
 
 
