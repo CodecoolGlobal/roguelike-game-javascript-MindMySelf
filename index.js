@@ -130,66 +130,92 @@ function generateMap() {
       layout: [10, 10, 20, 20],
       gates: [
         //{x: 6, y: 15, icon: c.gateHorizontal, playerStart: { x: 19, y: 15 } },
-        { to: ROOM.B, x: 20, y: 15, icon: c.gateVertical,
-          playerStart: { x: 15, y: 7 } },
+        {
+          to: ROOM.B, x: 20, y: 15, icon: c.gateVertical,
+          playerStart: { x: 15, y: 7 }
+        },
       ],
       enemies: [
-        { type: ENEMY.RAT, x: 12, y: 15,
-          name: 'Raataaa', ...ENEMY_INFO[ENEMY.RAT] },
+        {
+          type: ENEMY.RAT, x: 12, y: 15,
+          name: 'Raataaa', ...ENEMY_INFO[ENEMY.RAT]
+        },
         // ^^^^^^^^^   please keep tis format for enemys ^^^^^^^^^^^^^
         //{ type: 'rat', x: 13, y: 13, name: 'Raaataaa', icon: ENEMY.RAT },
         //{ type: 'rat', x: 25, y: 15, name: 'Raaaaataaa', icon: ENEMY.RAT },
         //{ type: 'rat', x: 25, y: 15, name: 'Raattaaa', icon: ENEMY.RAT },
       ],
       items: [
-        { type: ITEMS.bread.type, x:15, y:15,
-          name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+        {
+          type: ITEMS.bread.type, x: 15, y: 15,
+          name: ITEMS.bread.name, icon: ITEMS.bread.icon
+        },
 
-        { type: ITEMS.bread.type, x:12, y:18,
-          name: ITEMS.bread.name, icon: ITEMS.bread.icon},
+        {
+          type: ITEMS.bread.type, x: 12, y: 18,
+          name: ITEMS.bread.name, icon: ITEMS.bread.icon
+        },
       ],
     },
     [ROOM.B]: {
       layout: [13, 6, 17, 70],
       gates: [
-        { to: ROOM.A, x: 6, y: 15, icon: c.gateVertical,
-          playerStart: { x: 15, y: 19 } },
+        {
+          to: ROOM.A, x: 6, y: 15, icon: c.gateVertical,
+          playerStart: { x: 15, y: 19 }
+        },
 
-        { to: ROOM.C, x: 65, y: 13, icon: c.gateHorizontal,
-          playerStart: { x:18, y:3  } },
+        {
+          to: ROOM.C, x: 65, y: 13, icon: c.gateHorizontal,
+          playerStart: { x: 18, y: 3 }
+        },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-        { type: ITEMS.apple.type, x:14, y:58,
-          name: ITEMS.apple.name, icon: ITEMS.apple.icon},
+        {
+          type: ITEMS.apple.type, x: 14, y: 58,
+          name: ITEMS.apple.name, icon: ITEMS.apple.icon
+        },
 
-        { type: ITEMS.apple.type, x:16, y:27,
-          name: ITEMS.apple.name, icon: ITEMS.apple.icon},
+        {
+          type: ITEMS.apple.type, x: 16, y: 27,
+          name: ITEMS.apple.name, icon: ITEMS.apple.icon
+        },
       ],
     },
     [ROOM.C]: {
       layout: [2, 2, 22, 60],
       gates: [
-        {to: ROOM.B, x: 2, y: 18, icon: c.gateVertical,
-          playerStart: { x: 14, y: 65 } },
+        {
+          to: ROOM.B, x: 2, y: 18, icon: c.gateVertical,
+          playerStart: { x: 14, y: 65 }
+        },
       ],
       enemies: [
         // { type: ENEMY.RAT, x: 25, y: 15, name: "Rattata", ...ENEMY_INFO[ENEMY.RAT] },
       ],
       items: [
-        { type: ITEMS.potion.type, x:4, y:6,
-          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+        {
+          type: ITEMS.potion.type, x: 4, y: 6,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon
+        },
 
-        { type: ITEMS.potion.type, x:20, y:34,
-          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+        {
+          type: ITEMS.potion.type, x: 20, y: 34,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon
+        },
 
-        { type: ITEMS.potion.type, x:16, y:54,
-          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+        {
+          type: ITEMS.potion.type, x: 16, y: 54,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon
+        },
 
-        { type: ITEMS.potion.type, x:10, y:10,
-          name: ITEMS.potion.name, icon: ITEMS.potion.icon},
+        {
+          type: ITEMS.potion.type, x: 10, y: 10,
+          name: ITEMS.potion.name, icon: ITEMS.potion.icon
+        },
       ],
     },
   };
@@ -215,7 +241,6 @@ function drawScreen() {
     getCurrentRoom().layout[2], getCurrentRoom().layout[3]);
   // ... print entities with `addToBoard`
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
-  showStats(GAME.player, ENEMY.RAT);
   displayBoard(GAME.board);
 }
 
@@ -230,7 +255,11 @@ function moveAll(yDiff, xDiff) {
   // ... use `move` to move all entities
   move(GAME.player, yDiff, xDiff);
   // ... show statistics with `showStats`
+  showStats(GAME.player, ENEMY.RAT);
+
   // ... reload screen with `drawScreen`
+  drawScreen();
+
 }
 
 /**
@@ -261,20 +290,14 @@ function move(who, yDiff, xDiff) {
   // ... check if move to new room (`removeFromBoard`, `addToBoard`)
   else if (isGate) {
     for (const gate of getCurrentRoom().gates) {
-      const isCurrentGate = desiredXPos === gate.y  && desiredYPos === gate.x;
+      const isCurrentGate = desiredXPos === gate.y && desiredYPos === gate.x;
       if (isCurrentGate) {
         GAME.currentRoom = gate.to;
         who.x = gate.playerStart.x;
         who.y = gate.playerStart.y;
       }
     }
-    drawScreen();
     return console.log('Moved to another room');
-  }
-
-  // ... check if attack enemy
-  else if (GAME.board[desiredXPos][desiredYPos] === c.enemy) {
-    return console.log('Enemy has been attacked');
   }
 
   // ... check if attack player
@@ -296,7 +319,7 @@ function move(who, yDiff, xDiff) {
     for (const item of getCurrentRoom().items) {
       const isCurrentItem = desiredXPos === item.x && desiredYPos === item.y;
       if (isCurrentItem) {
-      //add item to player
+        //add item to player
         removeFromBoard(GAME.board, item);
         if ('damage' in ITEMS[item.name]) {
           GAME.player.attack += ITEMS[item.name].damage;
@@ -308,20 +331,18 @@ function move(who, yDiff, xDiff) {
         item.x = 0;
         item.y = 0;
         item.icon = ' ';
-        drawScreen();
         return console.log('Player has been picked up an item');
       }
     }
     for (const enemy of getCurrentRoom().enemies) {
       const isCurrentEnemy = desiredXPos === enemy.x && desiredYPos === enemy.y;
       if (isCurrentEnemy) {
-      // Write your disire here
-      //removeFromBoard live it here
+        // Write your desire here
+        //removeFromBoard live it here
         removeFromBoard(GAME.board, enemy);
         enemy.x = 0;
         enemy.y = 0;
         enemy.icon = ' ';
-        drawScreen();
         return console.log('Player has been met with an enemy');
       }
     }
@@ -331,7 +352,6 @@ function move(who, yDiff, xDiff) {
   who.x = desiredXPos;
   who.y = desiredYPos;
   addToBoard(GAME.board, GAME.player, GAME.player.icon);
-  drawScreen();
   if (GAME.player.health <= 0) {
     console.log('lefutok');
     _gameOver();
@@ -407,10 +427,10 @@ function drawRoom(board, topY, leftX, bottomY, rightX) {
   for (const gate of getCurrentRoom().gates) {
     board[gate.y][gate.x] = gate.icon;
   }
-  for (const item of getCurrentRoom().items){
+  for (const item of getCurrentRoom().items) {
     addToBoard(GAME.board, item, item.icon);
   }
-  for (const enemy of getCurrentRoom().enemies){
+  for (const enemy of getCurrentRoom().enemies) {
     addToBoard(GAME.board, enemy, enemy.icon);
   }
   return board;
@@ -477,10 +497,10 @@ function _start(moveCB) {
     let xDiff = 0;
     let yDiff = 0;
     switch (e.key.toLocaleLowerCase()) {
-    case 'w': { yDiff = 0; xDiff = -1; break; }
-    case 's': { yDiff = 0; xDiff = 1; break; }
-    case 'a': { yDiff = -1; xDiff = 0; break; }
-    case 'd': { yDiff = 1; xDiff = 0; break; }
+      case 'w': { yDiff = 0; xDiff = -1; break; }
+      case 's': { yDiff = 0; xDiff = 1; break; }
+      case 'a': { yDiff = -1; xDiff = 0; break; }
+      case 'd': { yDiff = 1; xDiff = 0; break; }
     }
     if (xDiff !== 0 || yDiff !== 0) {
       moveCB(yDiff, xDiff);
@@ -518,12 +538,12 @@ function _restart() {
 }
 
 const ITEMS = {
-  sword: {name: 'sword', type: 'weapon', damage: 5, icon: 'W'},
-  spear: {name: 'spear', type: 'weapon', damage: 10, icon: 'S'},
-  mace: {name: 'mace', type: 'weapon', damage: 15, icon: 'M'},
-  bread: {name: 'bread', type: 'food', heal: 5, icon: 'B'},
-  apple: {name: 'apple', type: 'food', damage: 10, icon: 'A'},
-  potion: {name: 'potion', type: 'food', damage: 25, icon: 'P'},
+  sword: { name: 'sword', type: 'weapon', damage: 5, icon: 'W' },
+  spear: { name: 'spear', type: 'weapon', damage: 10, icon: 'S' },
+  mace: { name: 'mace', type: 'weapon', damage: 15, icon: 'M' },
+  bread: { name: 'bread', type: 'food', heal: 5, icon: 'B' },
+  apple: { name: 'apple', type: 'food', damage: 10, icon: 'A' },
+  potion: { name: 'potion', type: 'food', damage: 25, icon: 'P' },
 };
 
 
